@@ -9,16 +9,22 @@ namespace BIBPic.Model
 {
     internal class SQLConnect
     {
-        public void SQLConnection()
+        public SqlConnection Connection { get; set; }
+
+        public SQLConnect()
         {
-            using (SqlConnection connection = new SqlConnection())
+            Connection = new SqlConnection("Server=ServerName\\SQLEXPRESS; Database=BIBPic; Integrated Security=True");
+            if (Connection.State == System.Data.ConnectionState.Closed)
             {
-                connection.ConnectionString = "Server=server_name;" +
-                                              "Database=database_name;" +
-                                              "User ID=user_name;" +
-                                              "Password=password;" +
-                                              "Trusted_Connection=False;";
-                connection.Open();
+                Connection.Open();
+            }
+        }
+
+        public void CloseConnection()
+        {
+            if (Connection.State == System.Data.ConnectionState.Open)
+            {
+                Connection.Close();
             }
         }
     }

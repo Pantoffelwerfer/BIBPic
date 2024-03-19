@@ -12,13 +12,15 @@ namespace BIBPic.Ressources
         public string Name { get; set; }
         public string Surname { get; set; }
         public int StudentID { get; set; }
+        public string ClassID { get; set; }
 
         //Constructor of the Students class.
-        public Students(string name, string surname, int studentID)
+        public Students(string name, string surname, string classID, int studentID)
         {
             Name = name;
             Surname = surname;
             StudentID = studentID;
+            ClassID = classID;
         }
 
     }
