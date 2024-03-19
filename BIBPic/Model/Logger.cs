@@ -10,7 +10,7 @@ namespace BIBPic.Model
 {
     internal class Logger
     {
-                        private static ILogger _logger;
+        private static ILogger _logger;
         public static void InitializeLogger()
         {
             _logger = new LoggerConfiguration()

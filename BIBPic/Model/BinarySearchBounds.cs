@@ -25,7 +25,7 @@ namespace BIBPic.Model
             while (minScaleFactor <= maxScaleFactor)
             {
                 // Mittleren Skalierungsfaktor berechnen
-                float scaleFactor = (minScaleFactor + maxScaleFactor) / 2;
+                float scaleFactor = minScaleFactor + (minScaleFactor + maxScaleFactor) / 2;
 
                 // Größe des skalierten Bildes berechnen
                 int newWidth = (int)(fileImage.Width * scaleFactor);

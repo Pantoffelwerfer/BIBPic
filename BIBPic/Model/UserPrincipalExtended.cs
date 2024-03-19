@@ -8,5 +8,6 @@ namespace BIBPic.Model
 {
     internal class UserPrincipalExtended
     {
+        //TODO: Check if the User is needed.
     }
 }
