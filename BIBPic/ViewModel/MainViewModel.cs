@@ -15,20 +15,21 @@ namespace BIBPic.ViewModel
 {
     internal class MainViewModel: BaseViewModel
     {
-		private static List<ClassNames> _classNames;
+		private ObservableCollection<ClassNames> _classNames;
+        private string _classValue;
         private List<Students> _students;
         private SQLConnect _sqlConnect = new SQLConnect();
-        
 
 
-        public List<ClassNames> ClassNamesList
+
+        public ObservableCollection<ClassNames> ClassNamesList
 		{
 			get { return _classNames; }
             set
             {
                 if (_classNames != value)
                 {
-                    GetClassNamesByQuery();
+                    //GetClassNamesByQuery();
                     _classNames = value;
                     OnPropertyChanged();
                 }
@@ -40,12 +41,10 @@ namespace BIBPic.ViewModel
 			get { return _students; }
             set
             {
-                GetStudentsByQuery(ClassValue);
+                //GetStudentsByQuery(ClassValue);
                 _students = value;
             }
 		}
-
-        private string _classValue;
 
         public string ClassValue
         {
@@ -62,8 +61,10 @@ namespace BIBPic.ViewModel
 
         public MainViewModel()
         {
-            _classNames = new List<ClassNames>();
+            _classNames = new ObservableCollection<ClassNames>();
             _students = new List<Students>();
+            ClassValue = "Alle";
+            ClassNamesList.Add(new ClassNames("Alle"));
         }
 
         public void GetClassNamesByQuery()
