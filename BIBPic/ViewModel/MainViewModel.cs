@@ -19,6 +19,18 @@ namespace BIBPic.ViewModel
         private string _classValue;
         private List<Students> _students;
         private SQLConnect _sqlConnect = new SQLConnect();
+        private Logger _logger = new Logger();
+        private ObservableCollection<Logger> _logs;
+
+        public ObservableCollection<Logger> Logging
+        {
+            get { return _logs; }
+            set
+            {
+                _logs = value;
+                OnPropertyChanged();
+            }
+        }
 
 
 
@@ -30,6 +42,7 @@ namespace BIBPic.ViewModel
                 if (_classNames != value)
                 {
                     //GetClassNamesByQuery();
+                    Logging.Add(_logger.GetLogger().Information("Hallo"));
                     _classNames = value;
                     OnPropertyChanged();
                 }
@@ -63,7 +76,6 @@ namespace BIBPic.ViewModel
         {
             _classNames = new ObservableCollection<ClassNames>();
             _students = new List<Students>();
-            ClassValue = "Alle";
             ClassNamesList.Add(new ClassNames("Alle"));
         }
 

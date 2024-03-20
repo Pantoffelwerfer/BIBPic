@@ -8,20 +8,20 @@ using Serilog.Events;
 
 namespace BIBPic.Model
 {
-    internal class Logger
+    internal class Logger 
     {
-        private static ILogger _logger;
-        public static void InitializeLogger()
+        private ILogger _logger;
+
+        public ILogger GetLogger()
         {
-            _logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
+            if (_logger == null)
+            {
+                _logger = new LoggerConfiguration().CreateLogger();
+            }
+            return _logger;
         }
-        public static void Log(string message, LogEventLevel level)
-        {
-            _logger.Write(level, message);
-        }
+
+       
     
 
     }

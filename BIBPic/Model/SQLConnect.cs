@@ -9,7 +9,6 @@ namespace BIBPic.Model
 {
     internal class SQLConnect
     {
-        //TODO: Connect to the SQL Server.
 
         public SqlConnection Connection { get; set; }
 
