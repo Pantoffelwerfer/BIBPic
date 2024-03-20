@@ -17,8 +17,8 @@ namespace BIBPic.ViewModel
     {
 		private ObservableCollection<ClassNames> _classNames;
         private string _classValue;
-        private List<Students> _students;
-        private SQLConnect _sqlConnect = new SQLConnect();
+        private List<Student> _students;
+        
         private Logger _logger = new Logger();
         private ObservableCollection<Logger> _logs;
 
@@ -39,17 +39,12 @@ namespace BIBPic.ViewModel
 			get { return _classNames; }
             set
             {
-                if (_classNames != value)
-                {
-                    //GetClassNamesByQuery();
-                    Logging.Add(_logger.GetLogger().Information("Hallo"));
                     _classNames = value;
                     OnPropertyChanged();
-                }
             }
 		}
 
-		public List<Students> Students
+		public List<Student> Students
 		{
 			get { return _students; }
             set
@@ -75,79 +70,64 @@ namespace BIBPic.ViewModel
         public MainViewModel()
         {
             _classNames = new ObservableCollection<ClassNames>();
-            _students = new List<Students>();
-            ClassNamesList.Add(new ClassNames("Alle"));
+            GetClassNamesFromExcel();
+            _students = new List<Student>();
         }
 
-        public void GetClassNamesByQuery()
-        {
-            ClassNamesList.Clear();
-            ClassNamesList.Add(new ClassNames("Alle"));
-            string query = @"
-                SELECT 
-                    Class.ClassName
-                FROM 
-                    Class
-                ORDER BY 
-                    Class.ClassName";
 
-            // Erstellen und Ausführen des SQL-Befehls
-            using (SqlCommand command = new SqlCommand(query, _sqlConnect.Connection))
+        //Get the class names from excel file.
+        public void GetClassNamesFromExcel()
+        {
+            DirectoryHelper directoryHelper = new DirectoryHelper();
+            List<ClassNames> list = directoryHelper.GetClassNamesFromExcel();
+            foreach (var className in list)
             {
-                // Ausführen der Abfrage und Verarbeiten der Ergebnisse
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Lesen der Daten und Hinzufügen zum Liste
-                        ClassNames classNames = new ClassNames((string)reader["Class"]);
-                        
-                        ClassNamesList.Add(classNames);
-                    }
-                }
+                ClassNamesList.Add(className);
             }
         }
+
+        
 
         public void GetStudentsByQuery(string className)
         {
-            string query = @"
-                SELECT 
-                    Student.Name, 
-                    Student.Surname, 
-                    Student.StudentID
-                    Student.Class
-                FROM 
-                    Student
-                WHERE 
-                    Student.Class = @className
-                ORDER BY 
-                    Student.Surname";
+            //string query = @"
+            //    SELECT 
+            //        Student.Name, 
+            //        Student.Surname, 
+            //        Student.StudentID
+            //        Student.Class
+            //    FROM 
+            //        Student
+            //    WHERE 
+            //        Student.Class = @className
+            //    ORDER BY 
+            //        Student.Surname";
 
-            // Erstellen und Ausführen des SQL-Befehls
-            using (SqlCommand command = new SqlCommand(query, _sqlConnect.Connection))
-            {
-                // Erstellen des Parameters
-                if (ClassValue != "Alle")
-                {
-                    command.Parameters.AddWithValue("@className", className);
-                }
-                else
-                {
-                    command.Parameters.AddWithValue("@className", "*");
-                }
+            //// Erstellen und Ausführen des SQL-Befehls
+            //using (SqlCommand command = new SqlCommand(query, _sqlConnect.Connection))
+            //{
+            //    // Erstellen des Parameters
+            //    if (ClassValue != "Alle")
+            //    {
+            //        command.Parameters.AddWithValue("@className", className);
+            //    }
+            //    else
+            //    {
+            //        command.Parameters.AddWithValue("@className", "*");
+            //    }
 
 
-                // Ausführen der Abfrage und Verarbeiten der Ergebnisse
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        // Lesen der Daten und Hinzufügen zum Liste
-                        Students student = new Students((string)reader["Name"], (string)reader["Surname"], (string)reader["Class"] , (int)reader["StudentID"]);
-                        Students.Add(student);
-                    }
-                }
-            }
+            //    // Ausführen der Abfrage und Verarbeiten der Ergebnisse
+            //    using (SqlDataReader reader = command.ExecuteReader())
+            //    {
+            //        while (reader.Read())
+            //        {
+            //            // Lesen der Daten und Hinzufügen zum Liste
+            //            Student student = new Student((string)reader["Name"], (string)reader["Surname"], (string)reader["Class"] , (int)reader["StudentID"]);
+            //            Students.Add(student);
+            //        }
+            //    }
+            //}
         }
 
 	}

@@ -20,7 +20,7 @@ namespace BIBPic
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            
         }
     }
 }

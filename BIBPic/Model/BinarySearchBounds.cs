@@ -11,14 +11,13 @@ namespace BIBPic.Model
 {
     internal class BinarySearchBounds
     {
-        private readonly int targetSize = 100000;
-        public Bitmap SearchBoundsBinary(Bitmap fileImage, string fileName)
+        private readonly static int targetSize = 100000;
+        public static Bitmap SearchBoundsBinary(Bitmap fileImage, string fileName)
         {
             MemoryStream ms = new MemoryStream();
             fileImage.Save(ms, ImageFormat.Jpeg);
             
             var newMemory = ms.Length;
-
             float minScaleFactor = 0.01f; // Mindestwert für den Skalierungsfaktor
             float maxScaleFactor = 1.0f; // Maximalwert für den Skalierungsfaktor
 
