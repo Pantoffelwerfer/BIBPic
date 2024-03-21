@@ -48,7 +48,7 @@ namespace BIBPic.Model
 
                     Student studentName; //ToDo: Search for the user in the DB
 
-                    string destSave = destinationDirectory.FullName + fileName;
+                    string destSave = destinationDirectory.FullName+ "\\" +fileName;
                     string filePath = Path.Combine(sourceFilePath, fileName);
                     Bitmap fileImage = new Bitmap(filePath);
 
@@ -60,11 +60,12 @@ namespace BIBPic.Model
 
 
                     var newImage = BinarySearchBounds.SearchBoundsBinary(fileImage, fileName);
+                    newImage.Save(destSave, ImageFormat.Jpeg);
                             newImage.Dispose();
                             fileImage.Dispose();
                             //SendExceptionMail();
-                        File.Move(filePath, destSave, overwrite: true);
-                     fileImage.Save(destSave, ImageFormat.Jpeg);
+                        //File.Move(filePath, destSave, overwrite: true);
+                     //fileImage.Save(destSave, ImageFormat.Jpeg);
                     
                     fileImage.Dispose();
                 }

@@ -27,6 +27,22 @@ namespace BIBPic.ViewModel
         private ICommand _openCommand;
         private string _destSelectedFolderPath;
         private string _originSelectedFolderPath;
+        private ICommand _startCommand;
+
+        public ICommand StartCommand
+        {
+            get
+            {
+                if (_startCommand == null)
+                {
+                    _startCommand = new RelayCommand(param => DirectoryHelper.GetFiles());
+                }
+                return _startCommand;
+
+            }
+            
+        }
+
 
         public DirectoryHelper DirectoryHelper = new DirectoryHelper();
 
