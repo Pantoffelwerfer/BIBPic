@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BIBPic.Model
 {
-    internal class UserPrincipalExtended
+    public interface IFileExplorerService
     {
-        //TODO: Check if the User is needed.
+        string OpenFileDialog();
     }
 }

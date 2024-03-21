@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BIBPic.Ressources
 {
-    internal class Student
+    public class Student
     {
         //Properties of the Student class.
         public string Name { get; set; }

@@ -9,18 +9,60 @@ using BIBPic.Ressources;
 using BIBPic.Model;
 using Microsoft.Data.SqlClient;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 
 namespace BIBPic.ViewModel
 {
-    internal class MainViewModel: BaseViewModel
+    public class MainViewModel: BaseViewModel
     {
 		private ObservableCollection<ClassNames> _classNames;
-        private string _classValue;
+        private string _selectedClassValue;
         private List<Student> _students;
-        
         private Logger _logger = new Logger();
         private ObservableCollection<Logger> _logs;
+        private BitmapImage _imageSource;
+        private readonly IFileExplorerService _fileExplorerService;
+        private ICommand _openCommand;
+        public ICommand OpenCommand
+        {
+            get
+            {
+                if (_openCommand == null)
+                {
+                    _openCommand = new RelayCommand(param => Open());
+                }
+                return _openCommand;
+            }
+        }
+        public MainViewModel(IFileExplorerService fileExplorerService)
+        {
+            _fileExplorerService = fileExplorerService;
+        }
+
+        private string _selectedFilePath;
+        public string SelectedFilePath
+        {
+            get { return _selectedFilePath; }
+            set
+            {
+                if (_selectedFilePath != value)
+                {
+                    _selectedFilePath = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public BitmapImage ImageSource
+        {
+            get { return _imageSource; }
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<Logger> Logging
         {
@@ -31,7 +73,6 @@ namespace BIBPic.ViewModel
                 OnPropertyChanged();
             }
         }
-
 
 
         public ObservableCollection<ClassNames> ClassNamesList
@@ -49,34 +90,32 @@ namespace BIBPic.ViewModel
 			get { return _students; }
             set
             {
-                //GetStudentsByQuery(ClassValue);
+                //GetStudentsByQuery(SelectedClassValue);
                 _students = value;
             }
 		}
 
-        public string ClassValue
+        public string SelectedClassValue
         {
-            get { return _classValue; }
+            get { return _selectedClassValue; }
             set
             {
-                _classValue = value;
+                _selectedClassValue = value;
                 OnPropertyChanged();
             }
         }
 
-
-
-
         public MainViewModel()
         {
             _classNames = new ObservableCollection<ClassNames>();
-            GetClassNamesFromExcel();
+            LoadClassNamesFromExcel();
+            LoadImage();
             _students = new List<Student>();
         }
 
 
         //Get the class names from excel file.
-        public void GetClassNamesFromExcel()
+        public void LoadClassNamesFromExcel()
         {
             DirectoryHelper directoryHelper = new DirectoryHelper();
             List<ClassNames> list = directoryHelper.GetClassNamesFromExcel();
@@ -85,7 +124,6 @@ namespace BIBPic.ViewModel
                 ClassNamesList.Add(className);
             }
         }
-
         
 
         public void GetStudentsByQuery(string className)
@@ -107,7 +145,7 @@ namespace BIBPic.ViewModel
             //using (SqlCommand command = new SqlCommand(query, _sqlConnect.Connection))
             //{
             //    // Erstellen des Parameters
-            //    if (ClassValue != "Alle")
+            //    if (SelectedClassValue != "Alle")
             //    {
             //        command.Parameters.AddWithValue("@className", className);
             //    }
@@ -129,6 +167,28 @@ namespace BIBPic.ViewModel
             //    }
             //}
         }
+        
 
-	}
+        private void Open()
+        {
+            FileExplorerService fileExplorerService = new FileExplorerService();
+            string selectedFile = fileExplorerService.OpenFileDialog();
+            if (!string.IsNullOrEmpty(selectedFile))
+            {
+                SelectedFilePath = selectedFile;
+            }
+        }
+
+        private void LoadImage()
+        {
+            
+            string filePath = "Ressources\\bibPic.png";
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(filePath, UriKind.Relative); 
+            bitmap.EndInit();
+
+            ImageSource = bitmap;
+        }
+    }
 }

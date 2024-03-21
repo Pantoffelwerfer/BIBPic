@@ -11,7 +11,7 @@ using Azure.Identity;
 
 namespace BIBPic.Model
 {
-    internal class APIConnect 
+    public class APIConnect 
     {
         static async Task Main(string[] args)
         {

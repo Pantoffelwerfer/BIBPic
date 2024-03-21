@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BIBPic.Ressources
 {
-    internal class ClassNames
+    public class ClassNames
     {
         public string ClassNameId { get; set; }
 

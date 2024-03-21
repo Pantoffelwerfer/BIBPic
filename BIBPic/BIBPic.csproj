@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <None Remove="ClassNames.xlsx" />
+    <None Remove="Ressources\bibPic.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Ressources\bibPic.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Ressources\ClassNames.xlsx" />
   </ItemGroup>
 

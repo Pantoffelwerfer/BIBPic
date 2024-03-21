@@ -12,16 +12,31 @@
         <local1:MainViewModel />
     </Window.DataContext>
 
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="false">
         <Grid.Resources>
             <Style TargetType="Label">
-                <Setter Property="Margin" Value="20"></Setter>
+                <Setter Property="Margin" Value="10"></Setter>
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="14"></Setter>
+                <Setter Property="FontWeight" Value="Bold"></Setter>
             </Style>
 
             <Style TargetType="ComboBox">
                 <Setter Property="Margin" Value="20"></Setter>
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="20"></Setter>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Width" Value="70"></Setter>
+                <Setter Property="Height" Value="25"></Setter>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="20"></Setter>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="Width" Value="400"></Setter>
+                <Setter Property="Height" Value="25"></Setter>
             </Style>
 
         </Grid.Resources>
@@ -36,15 +51,29 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        
+        <Label Margin="5" Height="75" Width="75">
+            <Image Source="{Binding ImageSource}"></Image>
+        </Label>
+        <StackPanel Grid.Column="2" HorizontalAlignment="Center" >
+            <StackPanel Orientation="Horizontal">
+                <Label Content="BIBPic" FontSize="20" Margin="0" VerticalAlignment="Bottom"></Label>
+                <Label Content="Version 1.0" Margin="3" VerticalAlignment="Bottom" FontSize="10" FontWeight="Normal"></Label>
+            </StackPanel>
+            <Label Content="Einstellungen" Margin="5" FontSize="18" FontWeight="DemiBold"></Label>
+        </StackPanel>
+        <Label Grid.Row="1" Content="Ordnerpfad:" HorizontalAlignment="Right"></Label>
+        <Label Grid.Row="2" Content="Klasse:" HorizontalAlignment="Right"></Label>
+        <Label Content="Log" Grid.Row="4" HorizontalAlignment="Right"></Label>
 
-        <Label Content="Einstellungen" Grid.ColumnSpan="2" HorizontalAlignment="Center"></Label>
-        <Label Grid.Row="1" Content="Ordnerpfad:"></Label>
-        <Label Grid.Row="2" Content="Klasse:"></Label>
-        <Label Content="Log" Grid.Row="4"></Label>
-
-        <ComboBox Grid.Column="1" Grid.Row="1"></ComboBox>
-        <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ClassNamesList}" SelectedItem="{Binding ClassValue}" DisplayMemberPath="ClassNameId" SelectedIndex="0"></ComboBox>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <Button Content="Auswählen" Command="{Binding OpenCommand}" Margin="10" HorizontalAlignment="Center"></Button>
+            <Label Content="Pfad:" Margin="20,0,0,0"></Label>
+            <TextBox Margin="10" HorizontalAlignment="Center" IsReadOnly="True" Text="{Binding SelectedFilePath}"></TextBox>
+        </StackPanel>
+        <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ClassNamesList}" SelectedItem="{Binding SelectedClassValue}" DisplayMemberPath="ClassNameId" SelectedIndex="0"></ComboBox>
         <TextBox Grid.Column="1" Grid.Row="4"></TextBox>
+        
 
     </Grid>
 </Window>

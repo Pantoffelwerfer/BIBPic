@@ -12,7 +12,7 @@ using Image = System.Drawing.Image;
 
 namespace BIBPic.Model
 {
-    internal class Converter
+    public class Converter
     {
         
         public static Image ReSizeImage(Image imageToResize, Size size)

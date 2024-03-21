@@ -14,7 +14,7 @@ using System.Reflection;
 
 namespace BIBPic.Model
 {
-    internal class DirectoryHelper
+    public class DirectoryHelper
     {
         public string OriginFolderPath { get; private set; }
         public string TargetFolderPath { get; private set; }
@@ -80,22 +80,21 @@ namespace BIBPic.Model
             {
                 if (stream != null)
                 {
-                    // Verwendung der EPPlus-Bibliothek zum Lesen der Excel-Datei
                     using (ExcelPackage package = new ExcelPackage(stream))
                     {
                         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Annahme: Die Klassennamen befinden sich im ersten Arbeitsblatt
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // ClassNames.xlsx only has one worksheet.
 
                         int rowCount = worksheet.Dimension.Rows;
 
-                        // Annahme: Die Klassennamen befinden sich in der ersten Spalte (Spalte A)
+                        // First class name is in the second row.
                         for (int row = 2; row <= rowCount; row++)
                         {
-                            string className = worksheet.Cells[row, 1].Value?.ToString(); // Lesen des Klassennamens aus der ersten Spalte
+                            string className = worksheet.Cells[row, 1].Value?.ToString(); // Read the class name from the first column.
 
                             if (!string.IsNullOrEmpty(className))
                             {
-                                classNames.Add(new ClassNames(className)); // Ausgabe des Klassennamens (Sie können es speichern, wie Sie möchten)
+                                classNames.Add(new ClassNames(className)); // ClassNames added to the list.
                             }
                         }
                     }

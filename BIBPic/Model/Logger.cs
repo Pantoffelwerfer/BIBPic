@@ -8,7 +8,7 @@ using Serilog.Events;
 
 namespace BIBPic.Model
 {
-    internal class Logger 
+    public class Logger 
     {
         private ILogger _logger;
 

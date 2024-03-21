@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BIBPic.Model
 {
-    internal class BinarySearchBounds
+    public class BinarySearchBounds
     {
         private readonly static int targetSize = 100000;
         public static Bitmap SearchBoundsBinary(Bitmap fileImage, string fileName)
