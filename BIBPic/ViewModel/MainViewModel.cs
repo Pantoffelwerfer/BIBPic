@@ -15,9 +15,9 @@ using System.Windows.Media.Imaging;
 
 namespace BIBPic.ViewModel
 {
-    public class MainViewModel: BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
-		private ObservableCollection<ClassNames> _classNames;
+        private ObservableCollection<ClassNames> _classNames;
         private string _selectedClassValue;
         private List<Student> _students;
         private Logger _logger = new Logger();
@@ -25,6 +25,7 @@ namespace BIBPic.ViewModel
         private BitmapImage _imageSource;
         private readonly IFileExplorerService _fileExplorerService;
         private ICommand _openCommand;
+
         public ICommand OpenCommand
         {
             get
@@ -33,15 +34,18 @@ namespace BIBPic.ViewModel
                 {
                     _openCommand = new RelayCommand(param => Open());
                 }
+
                 return _openCommand;
             }
         }
+
         public MainViewModel(IFileExplorerService fileExplorerService)
         {
             _fileExplorerService = fileExplorerService;
         }
 
         private string _selectedFilePath;
+
         public string SelectedFilePath
         {
             get { return _selectedFilePath; }
@@ -54,6 +58,7 @@ namespace BIBPic.ViewModel
                 }
             }
         }
+
         public BitmapImage ImageSource
         {
             get { return _imageSource; }
@@ -76,24 +81,24 @@ namespace BIBPic.ViewModel
 
 
         public ObservableCollection<ClassNames> ClassNamesList
-		{
-			get { return _classNames; }
+        {
+            get { return _classNames; }
             set
             {
-                    _classNames = value;
-                    OnPropertyChanged();
+                _classNames = value;
+                OnPropertyChanged();
             }
-		}
+        }
 
-		public List<Student> Students
-		{
-			get { return _students; }
+        public List<Student> Students
+        {
+            get { return _students; }
             set
             {
                 //GetStudentsByQuery(SelectedClassValue);
                 _students = value;
             }
-		}
+        }
 
         public string SelectedClassValue
         {
@@ -124,7 +129,7 @@ namespace BIBPic.ViewModel
                 ClassNamesList.Add(className);
             }
         }
-        
+
 
         public void GetStudentsByQuery(string className)
         {
@@ -167,7 +172,7 @@ namespace BIBPic.ViewModel
             //    }
             //}
         }
-        
+
 
         private void Open()
         {
@@ -181,14 +186,15 @@ namespace BIBPic.ViewModel
 
         private void LoadImage()
         {
-            
+
             string filePath = "Ressources\\bibPic.png";
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri(filePath, UriKind.Relative); 
+            bitmap.UriSource = new Uri(filePath, UriKind.Relative);
             bitmap.EndInit();
 
             ImageSource = bitmap;
         }
     }
+
 }

@@ -24,4 +24,5 @@ namespace BIBPic.ViewModel
                 handler(this, e);
         }
     }
+
 }
