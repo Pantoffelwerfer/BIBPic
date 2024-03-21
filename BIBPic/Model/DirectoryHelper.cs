@@ -11,13 +11,15 @@ using System.Threading.Tasks;
 using BIBPic.Ressources;
 using OfficeOpenXml;
 using System.Reflection;
+using BIBPic.ViewModel;
 
 namespace BIBPic.Model
 {
     public class DirectoryHelper
     {
-        public string OriginFolderPath { get; private set; }
-        public string TargetFolderPath { get; private set; }
+        public string OriginFolderPath { get; set; }
+        public string TargetFolderPath { get; set; }
+        
 
         public void CreateDirectory(string path)
         {
@@ -33,7 +35,6 @@ namespace BIBPic.Model
             string searchPattern = "*.jpg";
             DirectoryInfo destinationDirectory = this.PrepareDestinationDirectory();
 
-#pragma warning disable CS8604 // Possible null reference argument.
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceFilePath);
 
             if (sourceDirectory.Exists)

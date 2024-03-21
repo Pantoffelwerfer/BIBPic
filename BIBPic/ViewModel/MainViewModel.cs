@@ -25,6 +25,37 @@ namespace BIBPic.ViewModel
         private BitmapImage _imageSource;
         private readonly IFileExplorerService _fileExplorerService;
         private ICommand _openCommand;
+        private string _destSelectedFolderPath;
+        private string _originSelectedFolderPath;
+
+        public DirectoryHelper DirectoryHelper = new DirectoryHelper();
+
+        public string OriginSelectedFolderPath
+        {
+            get { return _originSelectedFolderPath; }
+            set
+            {
+                if (_originSelectedFolderPath != value)
+                {
+                    _originSelectedFolderPath = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string DestSelectedFolderPath
+        {
+            get { return _destSelectedFolderPath; }
+            set
+            {
+                if (_destSelectedFolderPath != value)
+                {
+                    _destSelectedFolderPath = value;
+                    OnPropertyChanged();
+                }
+
+            }
+        }
+
 
         public ICommand OpenCommand
         {
@@ -32,7 +63,7 @@ namespace BIBPic.ViewModel
             {
                 if (_openCommand == null)
                 {
-                    _openCommand = new RelayCommand(param => Open());
+                    _openCommand = new RelayCommand(param => Open(param));
                 }
 
                 return _openCommand;
@@ -44,20 +75,7 @@ namespace BIBPic.ViewModel
             _fileExplorerService = fileExplorerService;
         }
 
-        private string _selectedFilePath;
-
-        public string SelectedFilePath
-        {
-            get { return _selectedFilePath; }
-            set
-            {
-                if (_selectedFilePath != value)
-                {
-                    _selectedFilePath = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        
 
         public BitmapImage ImageSource
         {
@@ -122,8 +140,8 @@ namespace BIBPic.ViewModel
         //Get the class names from excel file.
         public void LoadClassNamesFromExcel()
         {
-            DirectoryHelper directoryHelper = new DirectoryHelper();
-            List<ClassNames> list = directoryHelper.GetClassNamesFromExcel();
+            
+            List<ClassNames> list = DirectoryHelper.GetClassNamesFromExcel();
             foreach (var className in list)
             {
                 ClassNamesList.Add(className);
@@ -174,13 +192,19 @@ namespace BIBPic.ViewModel
         }
 
 
-        private void Open()
+        private void Open(object param)
         {
             FileExplorerService fileExplorerService = new FileExplorerService();
-            string selectedFile = fileExplorerService.OpenFileDialog();
-            if (!string.IsNullOrEmpty(selectedFile))
+            string selectedFolder = fileExplorerService.OpenFileDialog();
+            if (!string.IsNullOrEmpty(selectedFolder) && Convert.ToInt32(param) == 1)
             {
-                SelectedFilePath = selectedFile;
+                OriginSelectedFolderPath = selectedFolder;
+                DirectoryHelper.OriginFolderPath = OriginSelectedFolderPath;
+            }
+            else if (!string.IsNullOrEmpty(selectedFolder) && Convert.ToInt32(param) == 2)
+            {
+                DestSelectedFolderPath = selectedFolder;
+                DirectoryHelper.TargetFolderPath = DestSelectedFolderPath;
             }
         }
 

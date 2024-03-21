@@ -45,6 +45,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -63,17 +64,23 @@
             <Label Content="Einstellungen" Margin="5" FontSize="18" FontWeight="DemiBold"></Label>
         </StackPanel>
         <Label Grid.Row="1" Content="Ordnerpfad:" HorizontalAlignment="Right"></Label>
-        <Label Grid.Row="2" Content="Klasse:" HorizontalAlignment="Right"></Label>
-        <Label Content="Log" Grid.Row="4" HorizontalAlignment="Right"></Label>
+        <Label Grid.Row="3" Content="Klasse:" HorizontalAlignment="Right"></Label>
+        <Label Grid.Row="2" Content="Zielpfad:" HorizontalAlignment="Right"></Label>
+        <Label Content="Log" Grid.Row="5" HorizontalAlignment="Right"></Label>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <Button Content="Auswählen" Command="{Binding OpenCommand}" Margin="10" HorizontalAlignment="Center"></Button>
+            <Button Content="Auswählen" Command="{Binding OpenCommand}" Margin="10" HorizontalAlignment="Center" CommandParameter="1"></Button>
             <Label Content="Pfad:" Margin="20,0,0,0"></Label>
-            <TextBox Margin="10" HorizontalAlignment="Center" IsReadOnly="True" Text="{Binding SelectedFilePath}"></TextBox>
+            <TextBox Margin="10" HorizontalAlignment="Center" IsReadOnly="True" Text="{Binding OriginSelectedFolderPath}"></TextBox>
         </StackPanel>
-        <ComboBox Grid.Column="1" Grid.Row="2" ItemsSource="{Binding ClassNamesList}" SelectedItem="{Binding SelectedClassValue}" DisplayMemberPath="ClassNameId" SelectedIndex="0"></ComboBox>
-        <TextBox Grid.Column="1" Grid.Row="4"></TextBox>
+        <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding ClassNamesList}" SelectedItem="{Binding SelectedClassValue}" DisplayMemberPath="ClassNameId" SelectedIndex="0"></ComboBox>
         
-
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <Button Content="Auswählen" Command="{Binding OpenCommand}" Margin="10" HorizontalAlignment="Center" CommandParameter="2"></Button>
+            <Label Content="Pfad:" Margin="20,0,0,0"></Label>
+            <TextBox Margin="10" HorizontalAlignment="Center" IsReadOnly="True" Text="{Binding DestSelectedFolderPath}"></TextBox>
+        </StackPanel>
+        <Button Grid.Row="4" Grid.Column="1" Content="Start" Command="{Binding StartCommand}" Margin="10" HorizontalAlignment="Center"></Button>
+        <ListView Grid.Row="5" Grid.Column="1" Margin="10"></ListView>
     </Grid>
 </Window>
