@@ -21,57 +21,55 @@ namespace BIBPic.Model
         public string TargetFolderPath { get; set; }
         
 
-        public void CreateDirectory(string path)
-        {
-            if (!System.IO.Directory.Exists(path))
-            {
-                System.IO.Directory.CreateDirectory(path);
-            }
-        }
-
+        //Get the files from the source folder and save them to the destination folder.
         public void GetFiles()
         {
             string? sourceFilePath = this.OriginFolderPath;
-            string searchPattern = "*.jpg";
+            
+            string[] searchPatterns = { "*.jpg", "*.jpeg", "*.png" };
             DirectoryInfo destinationDirectory = this.PrepareDestinationDirectory();
 
             DirectoryInfo sourceDirectory = new DirectoryInfo(sourceFilePath);
 
             if (sourceDirectory.Exists)
             {
-                foreach (FileInfo fileInfo in sourceDirectory.GetFiles(searchPattern, searchOption: SearchOption.TopDirectoryOnly))
+                foreach (var searchPattern in searchPatterns)
                 {
-                    
-                    //Get Login from the file name.
-                    string fileName = fileInfo.Name;
-                    string login = fileInfo.Name.Replace(fileInfo.Extension, "");
-
-                    Student studentName; //ToDo: Search for the user in the DB
-
-                    string destSave = destinationDirectory.FullName+ "\\" +fileName;
-                    string filePath = Path.Combine(sourceFilePath, fileName);
-                    Bitmap fileImage = new Bitmap(filePath);
-
-                    if (login == null)
+                    foreach (FileInfo fileInfo in sourceDirectory.GetFiles(searchPattern, searchOption: SearchOption.TopDirectoryOnly))
                     {
-                        SendExceptionMail(fileName);
-                        continue;
-                    }
-
-
-                    var newImage = BinarySearchBounds.SearchBoundsBinary(fileImage, fileName);
-                    newImage.Save(destSave, ImageFormat.Jpeg);
-                            newImage.Dispose();
-                            fileImage.Dispose();
-                            //SendExceptionMail();
-                        //File.Move(filePath, destSave, overwrite: true);
-                     //fileImage.Save(destSave, ImageFormat.Jpeg);
                     
-                    fileImage.Dispose();
+                        //Get Login from the file name.
+                        string fileName = fileInfo.Name; //ToDo: Get the file name from the DB by ID
+                        string login = fileInfo.Name.Replace(fileInfo.Extension, "");
+
+                        Student studentName; //ToDo: Search for the user in the DB
+
+                        string destSave = destinationDirectory.FullName+ "\\" +fileName;
+                        string filePath = Path.Combine(sourceFilePath, fileName);
+                        Bitmap fileImage = new Bitmap(filePath);
+
+                        if (login == null)
+                        {
+                            SendExceptionMail(fileName);
+                            continue;
+                        }
+
+
+                        var newImage = BinarySearchBounds.SearchBoundsBinary(fileImage, fileName);
+                        newImage.Save(destSave, ImageFormat.Jpeg);
+                        newImage.Dispose();
+                        fileImage.Dispose();
+                        //SendExceptionMail(); // ToDo: Send an email to the admin
+                        //File.Move(filePath, destSave, overwrite: true);
+                        //fileImage.Save(destSave, ImageFormat.Jpeg);
+                    
+                        fileImage.Dispose();
+                    }
                 }
             }
         }
 
+        //Get the class names from the excel file.
         public List<ClassNames> GetClassNamesFromExcel()
         {
             string filePath = "BIBPic.Ressources.ClassNames.xlsx";
@@ -109,13 +107,11 @@ namespace BIBPic.Model
             return classNames;
         }
     
-
+        //Create the destination directory if it does not exist.
         public DirectoryInfo PrepareDestinationDirectory()
         {
             string? tempPath = this.TargetFolderPath;
-#pragma warning disable CS8604 // Possible null reference argument.
             DirectoryInfo directoryInfo = new DirectoryInfo(tempPath);
-#pragma warning restore CS8604 // Possible null reference argument.
             try
             {
                 if (!directoryInfo.Exists)
@@ -131,6 +127,7 @@ namespace BIBPic.Model
             return directoryInfo;
         }
 
+        //Move the directory to the target folder for the original file if needed.
         public void MoveDirectory(string sourcePath, string destinationPath)
         {
             if (System.IO.Directory.Exists(sourcePath))
