@@ -15,14 +15,6 @@ namespace BIBPic.Model.Tests
         
 
         [TestMethod()]
-        public void SearchBoundsBinaryTest()
-        {
-            
-            
-
-            Assert.Fail();
-        }
-
         private static Bitmap CreateBitmapOfSize(int width, int height)
         {
             return new Bitmap(width, height);
@@ -58,7 +50,7 @@ namespace BIBPic.Model.Tests
         public void ImageAboveTargetSize_ScalesImage()
         {
             // Arrange
-            Bitmap image = CreateBitmapOfSize(1000, 1000);
+            Bitmap image = CreateBitmapOfSize(10000, 10000);
 
             // Act
             Bitmap result = BinarySearchBounds.SearchBoundsBinary(image, "TestImage.jpg");

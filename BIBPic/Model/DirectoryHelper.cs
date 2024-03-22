@@ -39,7 +39,7 @@ namespace BIBPic.Model
                     {
                     
                         //Get Login from the file name.
-                        string fileName = fileInfo.Name; //ToDo: Get the file name from the DB by ID
+                        string fileName = fileInfo.Name; //ToDo: Get the file name from the DB by Student ID
                         string login = fileInfo.Name.Replace(fileInfo.Extension, "");
 
                         Student studentName; //ToDo: Search for the user in the DB
