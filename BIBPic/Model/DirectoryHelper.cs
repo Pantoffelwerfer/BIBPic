@@ -146,7 +146,7 @@ namespace BIBPic.Model
             //TODO: Add the email address to send the exception mail
 
             message.Subject = $"Fotoupload fehlgeschlagen!";
-            message.From = new MailAddress("dennis.razlaw@edu.bib.de");
+            message.From = new MailAddress("exampleMail.com");
             message.Body += string.Format("Prozess von {0} fehlgeschlagen! ", fileName);
             System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.gmail.com");
             smtp.Port = 587;
