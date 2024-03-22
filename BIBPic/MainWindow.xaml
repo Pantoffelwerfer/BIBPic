@@ -41,7 +41,7 @@
 
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -80,7 +80,7 @@
             <Label Content="Pfad:" Margin="20,0,0,0"></Label>
             <TextBox Margin="10" HorizontalAlignment="Center" IsReadOnly="True" Text="{Binding DestSelectedFolderPath}"></TextBox>
         </StackPanel>
-        <Button Grid.Row="4" Grid.Column="1" Content="Start" Command="{Binding StartCommand}" Margin="10" HorizontalAlignment="Center"></Button>
+        <Button Grid.Row="4" Grid.Column="1" Content="Start" Command="{Binding StartCommand}" Margin="10" HorizontalAlignment="Center" IsEnabled="{Binding IsButtonEnabled}"></Button>
         <ListView Grid.Row="5" Grid.Column="1" Margin="10"></ListView>
     </Grid>
 </Window>

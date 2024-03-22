@@ -19,25 +19,25 @@ namespace BIBPic.Model
             fileImage.Save(ms, ImageFormat.Jpeg);
             
             var memory = ms.Length;
-            float minScaleFactor = 0.01f; // Mindestwert für den Skalierungsfaktor
-            float maxScaleFactor = 1.0f; // Maximalwert für den Skalierungsfaktor
+            float minScaleFactor = 0.01f; // Lower bound for the scaling factor.
+            float maxScaleFactor = 1.0f; // Higher bound for the scaling factor.
 
             if (memory > targetSize)
             {
                 long fileSize = memory;
                 while (minScaleFactor <= maxScaleFactor)
                 {
-                    // Mittleren Skalierungsfaktor berechnen
+                    // Middle of the binary search bounds.
                     float scaleFactor = minScaleFactor + (maxScaleFactor - minScaleFactor) / 2;
 
-                    // Größe des skalierten Bildes berechnen
+                    // Size of the new image.
                     int newWidth = (int)(fileImage.Width * scaleFactor);
                     int newHeight = (int)(fileImage.Height * scaleFactor);
 
-                    // Überprüfen, ob das skalierte Bild innerhalb der maximalen Größenbeschränkungen liegt
+                    // Check if the file size is within the target size.
                     if (Math.Abs(fileSize - targetSize) >= 1024)
                     {
-                        // Temporäres Bild mit dem skalierten Bild erstellen
+                        // Temporary resized image.
                         Image resizedImage = new Bitmap(newWidth, newHeight);
                         using (Graphics graphics = Graphics.FromImage(resizedImage))
                         {
@@ -45,7 +45,7 @@ namespace BIBPic.Model
                             graphics.DrawImage(fileImage, 0, 0, newWidth, newHeight);
                         }
 
-                        // Dateigröße des skalierten Bildes überprüfen
+                        // Length of the resized image.
                         
                         using (MemoryStream memoryStream = new MemoryStream())
                         {
@@ -53,31 +53,31 @@ namespace BIBPic.Model
                             fileSize = memoryStream.Length;
                         }
 
-                        // Überprüfen, ob die Dateigröße nahe bei der Zielgröße liegt
-                        if (Math.Abs(fileSize - targetSize) <= 1024) // Toleranz von 1 KB
+                        // Check if the file size is within the target size.
+                        if (Math.Abs(fileSize - targetSize) <= 1024) // Tolerance of 1KB.
                         {
-                            return (Bitmap)resizedImage; // Rückgabe des skalierten Bildes
+                            return (Bitmap)resizedImage; 
                         }
                         else if (fileSize > targetSize)
                         {
-                            // Dateigröße ist zu groß, den oberen Bereich der binären Suche ändern
+                            // Length of the resized image is too large, adjust the upper bound of the binary search.
                             maxScaleFactor = scaleFactor - 0.01f;
                         }
                         else
                         {
-                            // Dateigröße ist zu klein, den unteren Bereich der binären Suche ändern
+                            // Length of the resized image is too small, adjust the lower bound of the binary search.
                             minScaleFactor = scaleFactor + 0.01f;
                         }
                     }
                     else
                     {
-                        // Das Bild überschreitet die maximalen Größenbeschränkungen, die Suche abbrechen
+                        
                         break;
                     }
                 }
             }
             //DirectoryHelper.SendExceptionMail(fileName);
-            // Rückgabe des Originalbildes, wenn keine passende Größe gefunden wurde
+            // Return the original image if the file size is within the target size.
             return fileImage;
         }
 

@@ -11,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace BIBPic.ViewModel
@@ -28,6 +29,18 @@ namespace BIBPic.ViewModel
         private string _destSelectedFolderPath;
         private string _originSelectedFolderPath;
         private ICommand _startCommand;
+        private bool _isButtonEnabled;
+
+        public bool IsButtonEnabled
+        {
+            get { return _isButtonEnabled; }
+            set
+            {
+                
+                _isButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand StartCommand
         {
@@ -35,7 +48,7 @@ namespace BIBPic.ViewModel
             {
                 if (_startCommand == null)
                 {
-                    _startCommand = new RelayCommand(param => DirectoryHelper.GetFiles());
+                    _startCommand = new RelayCommand(param => DirectoryHelper.GetFiles(), param => IsButtonEnabled);
                 }
                 return _startCommand;
 
@@ -53,8 +66,10 @@ namespace BIBPic.ViewModel
             {
                 if (_originSelectedFolderPath != value)
                 {
+                    
                     _originSelectedFolderPath = value;
                     OnPropertyChanged();
+                    UpdateButtonState();
                 }
             }
         }
@@ -65,13 +80,20 @@ namespace BIBPic.ViewModel
             {
                 if (_destSelectedFolderPath != value)
                 {
+                    
                     _destSelectedFolderPath = value;
                     OnPropertyChanged();
+                    UpdateButtonState();
                 }
 
             }
         }
 
+        private void UpdateButtonState()
+        {
+            // Aktualisieren Sie den Zustand des Buttons basierend auf den Feldwerten
+            IsButtonEnabled = !string.IsNullOrWhiteSpace(DestSelectedFolderPath) && !string.IsNullOrWhiteSpace(OriginSelectedFolderPath);
+        }
 
         public ICommand OpenCommand
         {
