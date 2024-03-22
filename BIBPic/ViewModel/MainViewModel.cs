@@ -18,29 +18,27 @@ namespace BIBPic.ViewModel
 {
     public class MainViewModel : BaseViewModel
     {
+        #region Fields
+
         private ObservableCollection<ClassNames> _classNames;
-        private string _selectedClassValue;
-        private List<Student> _students;
-        private Logger _logger = new Logger();
         private ObservableCollection<Logger> _logs;
-        private BitmapImage _imageSource;
-        private readonly IFileExplorerService _fileExplorerService;
-        private ICommand _openCommand;
+        private List<Student> _students;
+
+        private string _selectedClassValue;
         private string _destSelectedFolderPath;
         private string _originSelectedFolderPath;
-        private ICommand _startCommand;
         private bool _isButtonEnabled;
 
-        public bool IsButtonEnabled
-        {
-            get { return _isButtonEnabled; }
-            set
-            {
-                
-                _isButtonEnabled = value;
-                OnPropertyChanged();
-            }
-        }
+        private Logger _logger = new Logger();
+        private BitmapImage _imageSource;
+
+        private readonly IFileExplorerService _fileExplorerService;
+        private ICommand _openCommand;
+        private ICommand _startCommand;
+
+        #endregion
+
+        #region Properties
 
         public ICommand StartCommand
         {
@@ -53,11 +51,9 @@ namespace BIBPic.ViewModel
                 return _startCommand;
 
             }
-            
+
         }
 
-
-        public DirectoryHelper DirectoryHelper = new DirectoryHelper();
 
         public string OriginSelectedFolderPath
         {
@@ -66,7 +62,7 @@ namespace BIBPic.ViewModel
             {
                 if (_originSelectedFolderPath != value)
                 {
-                    
+
                     _originSelectedFolderPath = value;
                     OnPropertyChanged();
                     UpdateButtonState();
@@ -80,7 +76,7 @@ namespace BIBPic.ViewModel
             {
                 if (_destSelectedFolderPath != value)
                 {
-                    
+
                     _destSelectedFolderPath = value;
                     OnPropertyChanged();
                     UpdateButtonState();
@@ -89,12 +85,16 @@ namespace BIBPic.ViewModel
             }
         }
 
-        private void UpdateButtonState()
+        public bool IsButtonEnabled
         {
-            // Aktualisieren Sie den Zustand des Buttons basierend auf den Feldwerten
-            IsButtonEnabled = !string.IsNullOrWhiteSpace(DestSelectedFolderPath) && !string.IsNullOrWhiteSpace(OriginSelectedFolderPath);
-        }
+            get { return _isButtonEnabled; }
+            set
+            {
 
+                _isButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand OpenCommand
         {
             get
@@ -107,14 +107,6 @@ namespace BIBPic.ViewModel
                 return _openCommand;
             }
         }
-
-        public MainViewModel(IFileExplorerService fileExplorerService)
-        {
-            _fileExplorerService = fileExplorerService;
-        }
-
-        
-
         public BitmapImage ImageSource
         {
             get { return _imageSource; }
@@ -165,6 +157,24 @@ namespace BIBPic.ViewModel
                 OnPropertyChanged();
             }
         }
+        #endregion
+
+        public DirectoryHelper DirectoryHelper = new DirectoryHelper();
+
+
+        private void UpdateButtonState()
+        {
+            // Aktualisieren Sie den Zustand des Buttons basierend auf den Feldwerten
+            IsButtonEnabled = !string.IsNullOrWhiteSpace(DestSelectedFolderPath) && !string.IsNullOrWhiteSpace(OriginSelectedFolderPath);
+        }
+
+        
+
+        public MainViewModel(IFileExplorerService fileExplorerService)
+        {
+            _fileExplorerService = fileExplorerService;
+        }
+
 
         public MainViewModel()
         {
@@ -186,7 +196,8 @@ namespace BIBPic.ViewModel
             }
         }
 
-
+        //Get the students by query.
+        //ToDo: Implement the method to get the students by query.
         public void GetStudentsByQuery(string className)
         {
             //string query = @"

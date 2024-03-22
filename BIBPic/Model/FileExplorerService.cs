@@ -10,6 +10,7 @@ namespace BIBPic.Model
 {
     public class FileExplorerService
     {
+        //Opens a file dialog and returns the selected file path.
         public string OpenFileDialog()
         {
             using (var dialog = new FolderBrowserDialog())
